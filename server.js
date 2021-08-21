@@ -21,8 +21,13 @@ app.get("/notes", (req, res) =>
     res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
 
+// GET request for notes
 app.get("/api/notes", (req, res) => {
+  // Inform the client
+  res.json(`${req.method} request received to retrieve notes`);
 
+  // Log our request to the terminal
+  console.info(`${req.method} request received to retrieve notes`);
 });
 
 app.post("/api/notes", (req, res) => {
