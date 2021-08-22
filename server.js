@@ -1,8 +1,6 @@
 const express = require("express");
 const path = require("path");
-const fs = require("fs");
-// Helper method for generating unique ids
-const uuid = require('./utils/uuid');
+const { generateRandomId, readAndAppend } = require("./utils/utils.js");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -32,25 +30,6 @@ app.get("/api/notes", (req, res) => {
     console.info(`${req.method} request received to retrieve notes`);
 });
 
-// Read data from file, append content
-const readAndAppend = (content, file) => {
-    fs.readFile(file, "utf8", (err, data) => {
-        if (err) {
-            console.error(err);
-        } else {
-            const parsedData = JSON.parse(data);
-            parsedData.push(content);
-            writeToFile(file, parsedData);
-        }
-    });
-};
-
-// Write content to JSON file
-const writeToFile = (destination, content) =>
-    fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
-        err ? console.error(err) : console.info(`\nData written to ${destination}`)
-    );
-
 // POST request for notes
 app.post("/api/notes", (req, res) => {
     // Log POST request to terminal
@@ -65,7 +44,7 @@ app.post("/api/notes", (req, res) => {
         const newNote = {
             title,
             text,
-            note_id: uuid(),
+            note_id: generateRandomId(),
         }
 
         // Add note to db.json
