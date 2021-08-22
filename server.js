@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const { generateRandomId, readAndAppend } = require("./utils/utils.js");
+const { generateRandomId, readAndAppend, readFromFile } = require("./utils/utils.js");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -23,8 +23,8 @@ app.get("/notes", (req, res) =>
 
 // GET request for notes
 app.get("/api/notes", (req, res) => {
-    // Inform the client
-    res.json(`${req.method} request received to retrieve notes`);
+    // Retrieve notes JSON
+    readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 
     // Log GET request to terminal
     console.info(`${req.method} request received to retrieve notes`);

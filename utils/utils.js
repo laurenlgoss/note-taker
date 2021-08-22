@@ -1,4 +1,5 @@
 const fs = require("fs");
+const util = require("util");
 
 module.exports = {
   // Generate string of random numbers and letters
@@ -18,6 +19,9 @@ module.exports = {
       }
     });
   },
+
+  // Promise version of fs.readFile
+  readFromFile: util.promisify(fs.readFile),
 };
 
 // Write content to JSON file
