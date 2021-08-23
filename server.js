@@ -44,7 +44,7 @@ app.post("/api/notes", (req, res) => {
         const newNote = {
             title,
             text,
-            note_id: generateRandomId(),
+            id: generateRandomId(),
         }
 
         // Add new note to db.json
