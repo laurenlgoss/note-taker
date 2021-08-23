@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const { generateRandomId, readAndAppend, readFromFile } = require("./utils/utils.js");
+const { generateRandomId, readAndAppend, readFromFile } = require("./utils/utils");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -9,22 +9,22 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 // HTML route to index.html
 app.get("/", (req, res) =>
-    res.sendFile(path.join(__dirname, '/public/index.html'))
+    res.sendFile(path.join(__dirname, "/public/index.html"))
 );
 
 // HTML route to notes.html
 app.get("/notes", (req, res) =>
-    res.sendFile(path.join(__dirname, '/public/notes.html'))
+    res.sendFile(path.join(__dirname, "/public/notes.html"))
 );
 
 // GET request for notes
 app.get("/api/notes", (req, res) => {
     // Retrieve notes JSON
-    readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
+    readFromFile("./db/db.json").then((data) => res.json(JSON.parse(data)));
 
     // Log GET request to terminal
     console.info(`${req.method} request received to retrieve notes`);
@@ -47,9 +47,10 @@ app.post("/api/notes", (req, res) => {
             note_id: generateRandomId(),
         }
 
-        // Add note to db.json
+        // Add new note to db.json
         readAndAppend(newNote, "./db/db.json");
 
+        // Log POST request status to terminal
         console.log(`Success! New note "${newNote.title}" posted.`);
         res.json(newNote);
     } else {
